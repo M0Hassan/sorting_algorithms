@@ -1,67 +1,94 @@
 #include "sort.h"
+
 /**
-* partition - partitions the array
-* @array: array to take in
-* @start: start of array;
-* @end: end of array
-* @size: full size of array
-* Return: position of pivot
+* quick_sort - Sorting function in ascending order using the Quicksort
+*sort algorithm.
+*
+* @array: The integer array that will be sorted.
+*
+* @size: The size of the integer array.
+*
+* Return: Always nothing (VOID).
 */
-int partition(int *array, int start, int end, int size)
+
+void quick_sort(int *array, size_t size)
 {
-int pivot = array[end];
-int i = start, j, temp;
+if (size > 1 && array != NULL)
+{
+quick_sort_helper(array, 0, size - 1, size);
+}
+}
+
+/**
+* quick_sort_helper - Helper function to execute the quicksort algorithm
+*   recursively in the array.
+* @arr: The array that will be sorted.
+*
+* @start: The index of the start point from where the array will be checked.
+*
+* @end: The index of the end point to where the array will be checked.
+*
+* @size: The size of the integer array.
+*
+* Return: Always nothing (VOID).
+*/
+
+void quick_sort_helper(int *arr, int start, int end, size_t size)
+{
+if (start < end)
+{
+int pivot = lomuto_partition(arr, start, end, size);
+
+quick_sort_helper(arr, start, pivot - 1, size);
+quick_sort_helper(arr, pivot + 1, end, size);
+}
+}
+
+/**
+* lomuto_partition - Makes the partition of the array following the lomuto's
+*  steps and ubicates the pivot.
+*
+* @arr: The array that will be partitionated.
+*
+* @start: The index of the start point from where the array will be checked.
+*
+* @end: The index of the end point to where the array will be checked.
+*
+* @size: The size of the integer array.
+*
+* Return: The index of the pivot.
+*/
+
+int lomuto_partition(int *arr, int start, int end, size_t size)
+{
+int pivot, i, j, aux;
+
+pivot = arr[end];
+i = start;
 
 for (j = start; j < end; j++)
 {
-if (array[j] <= pivot)
+if (arr[j] <= pivot)
 {
-if (i != j)
-{
-temp = array[i];
-array[i] = array[j];
-array[j] = temp;
-print_array(array, size);
-}
+aux = arr[i];
+arr[i] = arr[j];
+arr[j] = aux;
 i++;
+if (i - 1 != j)
+{
+print_array(arr, size);
 }
 }
+}
+
+aux = arr[i];
+arr[i] = arr[end];
+arr[end] = aux;
+
 if (i != end)
 {
-temp = array[i];
-array[i] = array[end];
-array[end] = temp;
-print_array(array, size);
+print_array(arr, size);
 }
+
 return (i);
-}
-/**
-* quickSort - quick sorts with recursion
-* @array: array to sort through
-* @start: start of array or subarray
-* @end: end of array or subarray
-* @size: size of full array
-*/
-void quickSort(int *array, int start, int end, int size)
-{
-int pivot;
-while (size) {
-if (start < end)
-{
-pivot = partition(array, start, end, size);
-quickSort(array, start, pivot - 1, size);
-}
-size--;
-}
-}
-/**
-* quick_sort - quick sorts an array
-* @array: array to sort
-* @size: size of array
-*/
-void quick_sort(int *array, size_t size)
-{
-if (array == NULL || size < 2)
-return;
-quickSort(array, 0, size - 1, size);
 }
