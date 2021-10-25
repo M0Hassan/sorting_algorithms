@@ -42,12 +42,9 @@ array[i++] = j;
 	}
 if (counts[j + 1] > counts[j])
 {
-for ((dup = counts[j + 1] - counts[j]);
-dup > 0;
-dup--;
+for ((dup = counts[j + 1] - counts[j]); dup > 0; dup--)
 array[i++] = (j + 1);
 }
 }
-
 free(counts);
 }
